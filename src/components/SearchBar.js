@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useState} from "react";
 
-function SearchBar() {
+function SearchBar({
+  sortAlphabetically,
+  sortByPrice,
+  filterByType,
+  resetSearch
+}) {
+
+  const [alphaChecked, setAlphaChecked] = useState(false);
+  const [priceChecked, setPriceChecked] = useState(false);
+
+  function handleAlphaSort() {
+    setPriceChecked(false);
+    setAlphaChecked(true);
+    sortAlphabetically();
+  }
+
+  function handlePriceSort() {
+    setAlphaChecked(false);
+    setPriceChecked(true);
+    sortByPrice();
+  }
+
+  function handleFilter(e) {
+    filterByType(e.target.value)
+  }
+
+  function handleReset() {
+    setAlphaChecked(false);
+    setPriceChecked(false);
+    resetSearch();
+  }
+
   return (
     <div>
+      <button onClick={handleReset}>Reset Search</button>
+      <br />
       <strong>Sort by:</strong>
       <label>
         <input
           type="radio"
           value="Alphabetically"
           name="sort"
-          checked={null}
-          onChange={null}
+          checked={alphaChecked}
+          onChange={handleAlphaSort}
         />
         Alphabetically
       </label>
@@ -19,15 +52,15 @@ function SearchBar() {
           type="radio"
           value="Price"
           name="sort"
-          checked={null}
-          onChange={null}
+          checked={priceChecked}
+          onChange={handlePriceSort}
         />
         Price
       </label>
       <br />
       <label>
         <strong>Filter:</strong>
-        <select onChange={null}>
+        <select onChange={handleFilter}>
           <option value="Tech">Tech</option>
           <option value="Sportswear">Sportswear</option>
           <option value="Finance">Finance</option>
